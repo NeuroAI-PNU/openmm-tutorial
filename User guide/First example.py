@@ -9,7 +9,11 @@ from datetime import datetime
 tik = datetime.now()
 pdb = PDBFile('input.pdb')
 
-forcefield = ForceField('amber14-all.xml', 'amber14/tip3pfb.xml')
+forcefield = ForceField('amber14-all.xml','amber14/tip3pfb.xml')
+   # use https://github.com/openmm/openmmforcefields
+   # see also: https://ambermd.org/AmberTools.php and https://simtk.org/projects/sander_openmm
+   
+                        
 
 system = forcefield.createSystem(pdb.topology, 
                                  nonbondedMethod=PME, # particle mesh ewald fro long range electrostatics interaction
