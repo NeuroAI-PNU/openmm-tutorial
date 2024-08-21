@@ -160,4 +160,4 @@ cython_debug/
 #.idea/
 
 # openmm stuffs
-*.pdb
+#*.pdb

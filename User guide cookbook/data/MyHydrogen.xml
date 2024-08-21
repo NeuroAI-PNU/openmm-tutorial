@@ -1,0 +1,12 @@
+<Residues>
+  <Residue name="NLN">
+    <H name="H" parent="N" terminal="-C"/>
+    <H name="H1" parent="N" terminal="N"/>
+    <H name="H2" parent="N" terminal="N"/>
+    <H name="H3" parent="N" terminal="N"/>
+    <H name="HA" parent="CA"/>
+    <H name="HB2" parent="CB"/>
+    <H name="HB3" parent="CB"/>
+    <H name="HD21" parent="ND2"/>
+  </Residue>
+</Residues>
