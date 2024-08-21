@@ -1,22 +1,25 @@
+# https://openmm.github.io/openmm-cookbook/latest/notebooks/cookbook/Changing%20Temperature%20and%20Pressure.html
 from openmm.app import *
 from openmm import *
 from openmm.unit import *
 from sys import stdout
 
-pdb = PDBFile('input.pdb')
+pdb = PDBFile('./data/input.pdb')
 forcefield = ForceField('amber14-all.xml', 'amber14/tip3pfb.xml')
 #system = forcefield.createSystem(pdb.topology, nonbondedMethod=PME,
 #                                 nonbondedCutoff=1*nanometer, constraints=HBonds)
 ''' save the the forcefield system to a file
-with open('system.xml', 'w') as f:
+with open('./results/system.xml', 'w') as f:
     f.write(XmlSerializer.serialize(system))
 '''
 # load the forcefield system from a file
-with open('system.xml', 'r') as f:
+with open('./results/system.xml', 'r') as f:
     system = XmlSerializer.deserialize(f.read())
 
+platform = Platform.getPlatformByName('CUDA')
+
 integrator = LangevinMiddleIntegrator(300*kelvin, 1/picosecond, 0.004*picoseconds)
-simulation = Simulation(pdb.topology, system, integrator)
+simulation = Simulation(pdb.topology, system, integrator, platform)
 simulation.context.setPositions(pdb.positions)
 
 # Change the temperature

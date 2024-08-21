@@ -6,8 +6,8 @@ from datetime import datetime
 
 # http://docs.openmm.org/latest/userguide/application/02_running_sims.html#a-first-example
 
-tik = datetime.now()
-pdb = PDBFile('input.pdb')
+
+pdb = PDBFile('./data/input.pdb')
 
 forcefield = ForceField('amber14-all.xml','amber14/tip3pfb.xml')
    # use https://github.com/openmm/openmmforcefields
@@ -31,27 +31,26 @@ platform = Platform.getPlatformByName('CUDA')
 simulation = Simulation(pdb.topology, system, integrator, platform)
 simulation.context.setPositions(pdb.positions)
 simulation.minimizeEnergy() # minimize energy at a starting point
-simulation.reporters.append(PDBReporter('output.pdb', 
+simulation.reporters.append(PDBReporter('./data/output.pdb', 
                                         1000)) # every 1000 steps, write the coordinates to a file
+                                               # since we have 10000 steps,
+                                               # we will have 10 pdb coordinates in output file
 simulation.reporters.append(StateDataReporter(stdout, 1000, step=True,
         potentialEnergy=True, temperature=True))
+tik = datetime.now()
 simulation.step(10000)
 tok = datetime.now()
-print("Time for gpu: ", tok - tik)
+print("Time for gpu: ", tok - tik) #Time for gpu:  0:00:04.925881
 
-
-tik = datetime.now()
-pdb = PDBFile('input.pdb')
-forcefield = ForceField('amber14-all.xml', 'amber14/tip3pfb.xml')
-system = forcefield.createSystem(pdb.topology, nonbondedMethod=PME,
-        nonbondedCutoff=1*nanometer, constraints=HBonds)
+# for CPU, we need set integrator.
 integrator = LangevinMiddleIntegrator(300*kelvin, 1/picosecond, 0.004*picoseconds)
 simulation = Simulation(pdb.topology, system, integrator)
 simulation.context.setPositions(pdb.positions)
 simulation.minimizeEnergy()
-simulation.reporters.append(PDBReporter('output.pdb', 1000))
+simulation.reporters.append(PDBReporter('./data/output.pdb', 1000))
 simulation.reporters.append(StateDataReporter(stdout, 1000, step=True,
         potentialEnergy=True, temperature=True))
+tik = datetime.now()
 simulation.step(10000)
 tok = datetime.now()
-print("Time for cpu: ", tok - tik)
+print("Time for cpu: ", tok - tik) #Time for cpu:  0:00:04.974028
