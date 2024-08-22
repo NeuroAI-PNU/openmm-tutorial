@@ -162,4 +162,6 @@ cython_debug/
 # openmm stuffs
 #*.pdb
 # output pdb files can have huge size, so ignore them
-output.pdb 
+output.pdb
+charmm-gui/
+charmm-gui.zip
