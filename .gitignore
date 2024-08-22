@@ -165,4 +165,6 @@ cython_debug/
 output.pdb
 charmm-gui/
 charmm-gui.zip
+hsp90_adp_mg/
+hsp90_adp_mg.zip
 results/
